@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "RepoDoc AI",
+  "name": "CodeScribe \u2014 AI Code Documentation Generator",
   "version": "1.0.0",
-  "description": "AI-powered code documentation generator - JSDoc, README, API docs, architecture, and changelog",
+  "description": "AI code documentation generator: JSDoc, README, API docs, architecture diagrams & changelogs from GitHub/GitLab code.",
   "permissions": [
     "sidePanel",
     "activeTab",
@@ -34,7 +34,9 @@
         "*://gitlab.com/*",
         "*://bitbucket.org/*"
       ],
-      "js": ["content.js"]
+      "js": [
+        "content.js"
+      ]
     }
   ],
   "declarative_net_request": {
@@ -50,5 +52,6 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  }
+  },
+  "short_name": "CodeScribe"
 }

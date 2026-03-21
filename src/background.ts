@@ -13,5 +13,5 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('RepoDoc AI installed');
+  console.log('CodeScribe installed');
 });

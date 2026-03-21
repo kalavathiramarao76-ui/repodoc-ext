@@ -37,7 +37,7 @@ const Popup: React.FC = () => {
           R
         </div>
         <div>
-          <h1 className="text-lg font-bold text-white">RepoDoc AI</h1>
+          <h1 className="text-lg font-bold text-white">CodeScribe</h1>
           <p className="text-xs text-slate-400 font-mono">Code Documentation Engine</p>
         </div>
         <button
@@ -106,7 +106,7 @@ const Popup: React.FC = () => {
       </div>
 
       <div className="mt-3 pt-2 border-t border-slate-800 text-center">
-        <span className="text-[10px] text-slate-600 font-mono">// Powered by RepoDoc AI Engine</span>
+        <span className="text-[10px] text-slate-600 font-mono">// Powered by CodeScribe Engine</span>
       </div>
     </div>
   );

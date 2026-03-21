@@ -68,7 +68,7 @@ const SidePanel: React.FC = () => {
             R
           </div>
           <div>
-            <h1 className="text-base font-bold text-white">RepoDoc AI</h1>
+            <h1 className="text-base font-bold text-white">CodeScribe</h1>
             <p className="text-[10px] text-slate-400 font-mono">// Advanced Code Documentation</p>
           </div>
         </div>
