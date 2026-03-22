@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeScribe - AI Code Documentation | Chrome Web Store</title>
+<style>
+  :root { --accent: #059669; --accent-light: #10b981; --accent-dark: #047857; --bg: #0f172a; --card: #1e293b; --card-hover: #334155; --text: #f1f5f9; --text-muted: #94a3b8; --border: #334155; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .hero { padding: 80px 0 60px; text-align: center; background: linear-gradient(180deg, rgba(5,150,105,0.15) 0%, transparent 100%); position: relative; }
+  .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(5,150,105,0.08) 0%, transparent 50%); }
+  .hero-icon { width: 96px; height: 96px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 48px; margin: 0 auto 24px; box-shadow: 0 20px 60px rgba(5,150,105,0.3); position: relative; }
+  .hero h1 { font-size: 56px; font-weight: 800; margin-bottom: 8px; background: linear-gradient(135deg, #fff, var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero .subtitle { font-size: 20px; color: var(--accent-light); font-weight: 600; margin-bottom: 16px; }
+  .hero .tagline { font-size: 18px; color: var(--text-muted); max-width: 620px; margin: 0 auto 32px; }
+  .badge-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .badge { background: var(--card); border: 1px solid var(--border); padding: 8px 16px; border-radius: 100px; font-size: 13px; color: var(--text-muted); }
+  .badge strong { color: var(--accent-light); }
+  .section { padding: 60px 0; }
+  .section-title { font-size: 32px; font-weight: 700; text-align: center; margin-bottom: 12px; }
+  .section-desc { text-align: center; color: var(--text-muted); margin-bottom: 48px; font-size: 16px; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .feature-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: all 0.3s; }
+  .feature-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(5,150,105,0.15); }
+  .feature-card .icon { font-size: 32px; margin-bottom: 12px; }
+  .feature-card h3 { font-size: 18px; margin-bottom: 8px; }
+  .feature-card p { font-size: 14px; color: var(--text-muted); }
+  .feature-card .tag { display: inline-block; background: rgba(5,150,105,0.15); color: var(--accent-light); padding: 2px 10px; border-radius: 100px; font-size: 12px; margin-top: 8px; }
+  .flow-steps { display: flex; gap: 0; justify-content: center; flex-wrap: wrap; padding: 20px 0; }
+  .flow-step { display: flex; align-items: center; }
+  .flow-step-content { text-align: center; padding: 20px; }
+  .flow-num { width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; margin: 0 auto 12px; }
+  .flow-step-content h4 { font-size: 15px; margin-bottom: 4px; }
+  .flow-step-content p { font-size: 13px; color: var(--text-muted); max-width: 140px; margin: 0 auto; }
+  .flow-arrow { color: var(--accent); font-size: 24px; padding: 0 4px; margin-top: -30px; }
+  .mock-section { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .mock-window { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .mock-titlebar { background: #0f172a; padding: 10px 16px; display: flex; align-items: center; gap: 8px; }
+  .mock-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .mock-dot.r { background: #ef4444; } .mock-dot.y { background: #eab308; } .mock-dot.g { background: #22c55e; }
+  .mock-titlebar span { color: var(--text-muted); font-size: 12px; margin-left: 12px; }
+  .mock-body { padding: 20px; }
+  .mock-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
+  .mock-btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .mock-btn { padding: 6px 14px; border-radius: 8px; font-size: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--text-muted); }
+  .mock-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  .mock-generate { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; width: 100%; margin-top: 8px; }
+
+  /* Code block */
+  .code-block { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 16px; font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace; font-size: 12px; line-height: 1.7; overflow-x: auto; margin-bottom: 12px; }
+  .code-block .comment { color: #8b949e; }
+  .code-block .keyword { color: #ff7b72; }
+  .code-block .string { color: #a5d6ff; }
+  .code-block .func { color: #d2a8ff; }
+  .code-block .type { color: #79c0ff; }
+  .code-block .param { color: #ffa657; }
+  .code-block .tag-at { color: var(--accent-light); }
+
+  .store-section { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 40px; margin-top: 20px; }
+  .store-section h3 { font-size: 20px; margin-bottom: 16px; color: var(--accent-light); }
+  .store-block { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; position: relative; }
+  .store-block h4 { font-size: 14px; color: var(--accent-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .store-block p, .store-block li { font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+  .store-block ul { list-style: none; padding: 0; }
+  .store-block ul li::before { content: '✓ '; color: var(--accent-light); font-weight: bold; }
+  .copy-hint { position: absolute; top: 12px; right: 12px; font-size: 11px; color: var(--text-muted); background: var(--card); padding: 2px 8px; border-radius: 4px; }
+  .release-item { border-left: 3px solid var(--accent); padding: 16px 20px; margin-bottom: 16px; background: var(--card); border-radius: 0 8px 8px 0; }
+  .release-item .version { font-size: 14px; font-weight: 700; color: var(--accent-light); }
+  .release-item .date { font-size: 12px; color: var(--text-muted); margin-left: 8px; }
+  .release-item ul { margin-top: 8px; padding-left: 16px; }
+  .release-item li { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
+  .divider { height: 1px; background: var(--border); margin: 0; }
+  @media (max-width: 768px) { .hero h1 { font-size: 36px; } .mock-section { grid-template-columns: 1fr; } .flow-steps { flex-direction: column; align-items: center; } .flow-arrow { transform: rotate(90deg); } }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-icon">&#128216;</div>
+    <h1>CodeScribe</h1>
+    <div class="subtitle">AI Code Documentation</div>
+    <p class="tagline">AI code documentation generator. Create JSDoc, README, API docs, architecture analysis, and changelogs instantly. Works on GitHub, GitLab, and Bitbucket.</p>
+    <div class="badge-row">
+      <div class="badge"><strong>5</strong> Doc Types</div>
+      <div class="badge">GitHub Integration</div>
+      <div class="badge">GitLab Integration</div>
+      <div class="badge">Bitbucket Integration</div>
+      <div class="badge">JetBrains Mono</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Powerful Features</h2>
+    <p class="section-desc">Generate professional documentation from code in seconds</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon">&#128196;</div>
+        <h3>JSDoc Generator</h3>
+        <p>Generate complete JSDoc annotations with @param, @returns, @throws, and @example tags. Supports TypeScript and JavaScript.</p>
+        <span class="tag">@param @returns @throws @example</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128214;</div>
+        <h3>README Generator</h3>
+        <p>Create professional README files with badges, features, installation instructions, API reference, and more.</p>
+        <span class="tag">Badges + Features + API</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128268;</div>
+        <h3>API Documentation</h3>
+        <p>Generate API docs with endpoints, request/response schemas, error codes, and authentication details.</p>
+        <span class="tag">Endpoints + Schemas</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#127959;&#65039;</div>
+        <h3>Architecture Analysis</h3>
+        <p>Analyze code structure with component diagrams, data flow visualization, and design pattern identification.</p>
+        <span class="tag">Diagrams + Patterns</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128203;</div>
+        <h3>Changelog Generator</h3>
+        <p>Generate changelogs following semantic versioning conventions. Track breaking changes, features, and fixes.</p>
+        <span class="tag">Semantic Versioning</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128187;</div>
+        <h3>Git Platform Integration</h3>
+        <p>Works directly on GitHub, GitLab, and Bitbucket. Injected button on code file pages with JetBrains Mono font rendering.</p>
+        <span class="tag">3 Platforms</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-desc">From source code to documentation in 6 steps</p>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-step-content"><div class="flow-num">1</div><h4>Navigate</h4><p>Go to GitHub code file</p></div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step"><div class="flow-step-content"><div class="flow-num">2</div><h4>Click Button</h4><p>// Generate Docs</p></div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step"><div class="flow-step-content"><div class="flow-num">3</div><h4>Select Type</h4><p>JSDoc, README, API...</p></div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step"><div class="flow-step-content"><div class="flow-num">4</div><h4>Paste Code</h4><p>Or auto-extract</p></div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step"><div class="flow-step-content"><div class="flow-num">5</div><h4>Stream Output</h4><p>Watch docs generate</p></div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step"><div class="flow-step-content"><div class="flow-num">6</div><h4>Copy</h4><p>Use in your project</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">See It in Action</h2>
+    <p class="section-desc">Beautiful documentation output with streaming generation</p>
+    <div class="mock-section">
+      <div>
+        <p class="mock-label">EXTENSION POPUP</p>
+        <div class="mock-window">
+          <div class="mock-titlebar">
+            <div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div>
+            <span>CodeScribe</span>
+          </div>
+          <div class="mock-body">
+            <p class="mock-label">DOCUMENTATION TYPE</p>
+            <div class="mock-btn-row">
+              <div class="mock-btn active">&#128196; JSDoc</div>
+              <div class="mock-btn">&#128214; README</div>
+              <div class="mock-btn">&#128268; API Docs</div>
+            </div>
+            <div class="mock-btn-row">
+              <div class="mock-btn">&#127959;&#65039; Architecture</div>
+              <div class="mock-btn">&#128203; Changelog</div>
+            </div>
+            <p class="mock-label" style="margin-top:12px">SOURCE CODE</p>
+            <div class="code-block" style="font-size:11px;min-height:80px">
+              <span class="keyword">async function</span> <span class="func">fetchUserData</span>(<span class="param">userId</span>, <span class="param">options</span>) {<br>
+              &nbsp;&nbsp;<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="func">fetch</span>(<span class="string">`/api/users/${userId}`</span>);<br>
+              &nbsp;&nbsp;<span class="keyword">if</span> (!response.ok) <span class="keyword">throw new</span> <span class="type">Error</span>(<span class="string">'Failed'</span>);<br>
+              &nbsp;&nbsp;<span class="keyword">return</span> response.<span class="func">json</span>();<br>
+              }
+            </div>
+            <button class="mock-generate">// Generate Documentation</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="mock-label">GENERATED JSDOC</p>
+        <div class="mock-window">
+          <div class="mock-titlebar">
+            <div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div>
+            <span>CodeScribe - Output</span>
+          </div>
+          <div class="mock-body">
+            <div class="code-block">
+              <span class="comment">/**</span><br>
+              <span class="comment"> * Fetches user data from the API by user ID.</span><br>
+              <span class="comment"> *</span><br>
+              <span class="comment"> * <span class="tag-at">@async</span></span><br>
+              <span class="comment"> * <span class="tag-at">@function</span> fetchUserData</span><br>
+              <span class="comment"> * <span class="tag-at">@param</span> {<span class="type">string</span>} <span class="param">userId</span> - The unique identifier of the user</span><br>
+              <span class="comment"> * <span class="tag-at">@param</span> {<span class="type">Object</span>} <span class="param">options</span> - Configuration options for the request</span><br>
+              <span class="comment"> * <span class="tag-at">@returns</span> {<span class="type">Promise&lt;Object&gt;</span>} The user data object</span><br>
+              <span class="comment"> * <span class="tag-at">@throws</span> {<span class="type">Error</span>} When the API request fails</span><br>
+              <span class="comment"> *</span><br>
+              <span class="comment"> * <span class="tag-at">@example</span></span><br>
+              <span class="comment"> * <span class="keyword">const</span> user = <span class="keyword">await</span> fetchUserData(<span class="string">'123'</span>, {});</span><br>
+              <span class="comment"> * console.log(user.name);</span><br>
+              <span class="comment"> */</span>
+            </div>
+            <div style="display:flex;gap:8px">
+              <div class="mock-btn active" style="flex:1;text-align:center;font-size:11px">&#128203; Copy</div>
+              <div class="mock-btn" style="flex:1;text-align:center;font-size:11px">&#128190; Download</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">What's New</h2>
+    <p class="section-desc">Latest updates and improvements</p>
+    <div class="release-item">
+      <span class="version">v1.0.0</span><span class="date">March 2026</span>
+      <ul>
+        <li>Initial release with 5 documentation types</li>
+        <li>JSDoc generator with @param, @returns, @throws, @example tags</li>
+        <li>README generator with badges, features, installation, and API sections</li>
+        <li>API docs with endpoints, schemas, and error codes</li>
+        <li>Architecture analysis with component diagrams and data flow</li>
+        <li>Changelog generator following semantic versioning</li>
+        <li>GitHub, GitLab, and Bitbucket integration</li>
+        <li>JetBrains Mono font for code rendering</li>
+        <li>Streaming output for real-time documentation generation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <div class="store-section">
+      <h3>&#127983; Chrome Web Store Listing (Copy-Paste Ready)</h3>
+      <div class="store-block">
+        <span class="copy-hint">&#128203; Copy</span>
+        <h4>Short Description (132 chars)</h4>
+        <p>AI code documentation generator. Create JSDoc, README, API docs, architecture analysis, and changelogs instantly. Works on GitHub, GitLab, and Bitbucket.</p>
+      </div>
+      <div class="store-block">
+        <span class="copy-hint">&#128203; Copy</span>
+        <h4>Detailed Description</h4>
+        <p>CodeScribe is an AI-powered code documentation generator that creates professional documentation from source code in seconds. Navigate to any code file on GitHub, GitLab, or Bitbucket and generate comprehensive docs with one click.</p>
+        <br>
+        <p><strong>JSDoc Generator:</strong> Generate complete JSDoc annotations with @param, @returns, @throws, and @example tags. Supports TypeScript and JavaScript functions, classes, and modules.</p>
+        <br>
+        <p><strong>README Generator:</strong> Create professional README files with badges, feature lists, installation instructions, API reference, and usage examples.</p>
+        <br>
+        <p><strong>API Documentation:</strong> Generate API docs with endpoints, request/response schemas, error codes, authentication details, and usage examples.</p>
+        <br>
+        <p><strong>Architecture Analysis:</strong> Analyze code structure with component diagrams, data flow visualization, dependency mapping, and design pattern identification.</p>
+        <br>
+        <p><strong>Changelog Generator:</strong> Generate changelogs following semantic versioning. Track breaking changes, new features, bug fixes, and deprecations.</p>
+        <br>
+        <p><strong>Platform Integration:</strong> Works on GitHub, GitLab, and Bitbucket with an injected "// Generate Docs" button on code file pages. Features JetBrains Mono font and streaming output.</p>
+      </div>
+      <div class="store-block">
+        <span class="copy-hint">&#128203; Copy</span>
+        <h4>Feature Bullet Points</h4>
+        <ul>
+          <li>JSDoc generator with @param, @returns, @throws, and @example tags</li>
+          <li>README generator with badges, features, installation, and API sections</li>
+          <li>API documentation with endpoints, schemas, and error codes</li>
+          <li>Architecture analysis with component diagrams and data flow</li>
+          <li>Changelog generator following semantic versioning</li>
+          <li>GitHub, GitLab, and Bitbucket integration</li>
+          <li>Injected "// Generate Docs" button on code file pages</li>
+          <li>JetBrains Mono font for beautiful code rendering</li>
+          <li>Streaming output for real-time documentation generation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="text-align:center; padding: 40px; color: var(--text-muted); font-size: 13px;">
+  CodeScribe &mdash; AI Code Documentation &mdash; Chrome Extension
+</div>
+
+</body>
+</html>
