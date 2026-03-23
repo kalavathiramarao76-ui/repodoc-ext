@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.2)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+  <!-- Shine overlay -->
+  <rect width="128" height="128" rx="28" fill="url(#shine)"/>
+  <!-- Document page -->
+  <g fill="white" opacity="0.2">
+    <path d="M36,18 L80,18 L92,30 L92,110 C92,112 90,114 88,114 L36,114 C34,114 32,112 32,110 L32,22 C32,20 34,18 36,18 Z"/>
+  </g>
+  <!-- Document fold -->
+  <path d="M80,18 L80,30 L92,30 Z" fill="white" opacity="0.15"/>
+  <!-- Document lines -->
+  <g stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.4">
+    <line x1="44" y1="44" x2="80" y2="44"/>
+    <line x1="44" y1="54" x2="74" y2="54"/>
+    <line x1="44" y1="84" x2="80" y2="84"/>
+    <line x1="44" y1="94" x2="70" y2="94"/>
+    <line x1="44" y1="104" x2="76" y2="104"/>
+  </g>
+  <!-- Code angle brackets < /> -->
+  <g fill="none" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- < bracket -->
+    <polyline points="46,60 34,72 46,84"/>
+    <!-- > bracket -->
+    <polyline points="82,60 94,72 82,84"/>
+    <!-- / slash -->
+    <line x1="60" y1="84" x2="68" y2="60"/>
+  </g>
+</svg>
